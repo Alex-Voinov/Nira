@@ -8,7 +8,8 @@ class Settings(BaseSettings):
     redis_dsn: Optional[str] = None
     debug: bool = False
     db_dsn: str
-
+    web_app_url: str
+    
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"
