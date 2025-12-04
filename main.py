@@ -5,8 +5,8 @@ from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.client.bot import DefaultBotProperties
 from config import settings
-from middlewares.ratelimit import SimpleRateLimitMiddleware
-from handlers import router
+from bot.middlewares.ratelimit import SimpleRateLimitMiddleware
+from bot.handlers import router
 from database import engine, Base
 
 
@@ -79,6 +79,8 @@ async def main():
         await dp.start_polling(bot)
     except (KeyboardInterrupt, SystemExit):
         logger.info("Got stop signal")
+    except Exception as e:
+        logger.error(e)
     finally:
         await on_shutdown(dp, bot)
 
