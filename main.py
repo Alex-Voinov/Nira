@@ -7,6 +7,7 @@ from aiogram.client.bot import DefaultBotProperties
 from config import settings
 from middlewares.ratelimit import SimpleRateLimitMiddleware
 from handlers import router
+from database import engine, Base
 
 
 try:
@@ -14,10 +15,7 @@ try:
 except Exception:
     RedisStorage = None
 
-
-# -------------------------
 # Logging
-# -------------------------
 log_level = logging.DEBUG if settings.debug else logging.INFO
 logging.basicConfig(
     level=log_level,
@@ -26,79 +24,63 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-# -------------------------
-# Create bot + storage + dispatcher
-# -------------------------
 def create_storage():
-    """
-    Создание хранилища для FSM:
-    Redis если доступен и указан DSN, иначе MemoryStorage.
-    """
+    """Выбираем хранилище FSM."""
     if settings.use_redis:
         if not RedisStorage or not settings.redis_dsn:
-            raise RuntimeError("RedisStorage запрошен, но пакет или DSN отсутствуют!")
+            raise RuntimeError(
+                "RedisStorage запрошен, но пакет или DSN отсутствуют!")
         logger.info("Using RedisStorage")
         return RedisStorage.from_url(settings.redis_dsn)
     logger.info("Using MemoryStorage (fallback)")
     return MemoryStorage()
 
 
-# Global error handler
-async def handle_errors(update, exception):
-    logger.exception("Unhandled exception: %s", exception)
-    # можно отправлять в Sentry / журнал и т.д.
-
-
-# -------------------------
-# Startup / Shutdown
-# -------------------------
-async def on_startup(bot: Bot):
+async def on_startup(dp: Dispatcher):
     logger.info("Startup: initializing resources")
-    # Примеры: подключение к базе, миграции, регистрация webhook, etc.
-    # Если webhook:
-    # await bot.set_webhook("https://example.com/telegram/webhook")
-    # dp['db'] = db_connection  # можно положить общие ресурсы в dp.storage/ dp.data
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
 
 
-async def on_shutdown(bot: Bot):
+async def on_shutdown(dp: Dispatcher, bot: Bot):
     logger.info("Shutdown: releasing resources")
     await bot.session.close()
-    await bot.dispatcher.storage.close()
+    await dp.storage.close()
     if RedisStorage:
-        await bot.dispatcher.storage.wait_closed()
+        await dp.storage.wait_closed()
 
 
-# -------------------------
-# Main entrypoint
-# -------------------------
+async def handle_errors(update, exception):
+    logger.exception("Unhandled exception: %s", exception)
+
+
 async def main():
     storage = create_storage()
+    bot = Bot(token=settings.tg_token,
+              default=DefaultBotProperties(parse_mode="HTML"))
+    dp = Dispatcher(storage=storage)
+    dp.include_router(router)
 
-    async with Bot(
-        token=settings.tg_token,
-        default=DefaultBotProperties(parse_mode="HTML")
-    ) as bot:
-        dp = Dispatcher(storage=storage)
-        dp.include_router(router)
+    dp.message.middleware(SimpleRateLimitMiddleware(limit_seconds=1))
+    dp.errors.register(handle_errors)
 
-        # register middleware
-        dp.message.middleware(SimpleRateLimitMiddleware(limit_seconds=1))
+    # Регистрация startup/shutdown без лямбд
+    async def startup_handler(*args, **kwargs):
+        await on_startup(dp)
 
-        # error / events
-        dp.startup.register(on_startup)
-        dp.shutdown.register(on_shutdown)
-        dp.errors.register(handle_errors)
+    async def shutdown_handler(*args, **kwargs):
+        await on_shutdown(dp, bot)
 
-        # Запуск: polling (для вебхуков настройка другая)
-        try:
-            logger.info("Starting polling...")
-            await dp.start_polling(bot)
-        except (KeyboardInterrupt, SystemExit):
-            logger.info("Got stop signal")
-        finally:
-            # надёжный shutdown
-            await on_shutdown(bot, dp)
+    dp.startup.register(startup_handler)
+    dp.shutdown.register(shutdown_handler)
 
+    try:
+        logger.info("Starting polling...")
+        await dp.start_polling(bot)
+    except (KeyboardInterrupt, SystemExit):
+        logger.info("Got stop signal")
+    finally:
+        await on_shutdown(dp, bot)
 
 if __name__ == "__main__":
     asyncio.run(main())

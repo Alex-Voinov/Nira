@@ -1,0 +1,4 @@
+aiogram==3.4
+asyncpg
+pydantic-settings
+python-dotenv

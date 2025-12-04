@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     use_redis: bool = False
     redis_dsn: Optional[str] = None
     debug: bool = False
+    db_dsn: str
 
     class Config:
         env_file = ".env"
