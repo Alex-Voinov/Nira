@@ -1,17 +1,22 @@
-import asyncio
-import logging
+# 1. Стандартная библиотека
+from asyncio import gather, run
+from logging import DEBUG, INFO, basicConfig, getLogger
 
+# 2. Сторонние библиотеки
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.client.bot import DefaultBotProperties
+
+from fastapi import FastAPI
+from uvicorn import Config, Server
+
+# 3. Локальные модули
 from config import settings
 from bot.middlewares.ratelimit import SimpleRateLimitMiddleware
 from bot.handlers import router as bot_router
 from database import engine, Base
-
-from fastapi import FastAPI
 from api.router.router import router as api_router
-import uvicorn
+
 
 try:
     from aiogram.fsm.storage.redis import RedisStorage
@@ -21,12 +26,12 @@ except Exception:
 # =========================
 # Logging
 # =========================
-log_level = logging.DEBUG if settings.debug else logging.INFO
-logging.basicConfig(
+log_level = DEBUG if settings.debug else INFO
+basicConfig(
     level=log_level,
     format="%(asctime)s %(levelname)s %(name)s: %(message)s"
 )
-logger = logging.getLogger(__name__)
+logger = getLogger(__name__)
 
 # =========================
 # FastAPI app
@@ -45,7 +50,7 @@ def create_storage():
             )
         logger.info("Using RedisStorage")
         return RedisStorage.from_url(settings.redis_dsn)
-    logger.info("Using MemoryStorage (fallback)")
+    logger.warning("Using MemoryStorage (fallback)")
     return MemoryStorage()
 
 # =========================
@@ -82,18 +87,18 @@ async def start_bot():
 # Запуск FastAPI
 # =========================
 async def start_api():
-    config = uvicorn.Config(app, host=settings.host, port=settings.port, log_level="info")
-    server = uvicorn.Server(config)
+    config = Config(app, host=settings.host, port=settings.port, log_level="info")
+    server = Server(config)
     await server.serve()
 
 # =========================
 # Главная функция
 # =========================
 async def main():
-    await asyncio.gather(
+    await gather(
         start_bot(),
         start_api()
     )
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    run(main())
