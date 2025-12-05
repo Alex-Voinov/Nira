@@ -1,8 +1,8 @@
+import AppRouter from "@/pages/AppRouter"
+
 function App() {
   return (
-    <>
-      Hello
-    </>
+    <AppRouter />
   )
 }
 
