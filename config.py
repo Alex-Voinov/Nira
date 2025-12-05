@@ -9,7 +9,9 @@ class Settings(BaseSettings):
     debug: bool = False
     db_dsn: str
     web_app_url: str
-    
+    port: int
+    host: str
+
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"

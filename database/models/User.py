@@ -4,9 +4,9 @@ from ..base import Base
 
 
 class User(Base):
-    __tablename__ = "user"
+    __tablename__ = "users"
 
-    th_id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
+    tg_id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
     name: Mapped[str] = mapped_column(String(20))
     age: Mapped[int] = mapped_column(Integer)
     gender: Mapped[str] = mapped_column(Text)
