@@ -8,7 +8,7 @@ type Props = {
 export default function StepSummary({ data }: Props) {
     const saveData = async () => {
         try {
-            const response = await fetch(`${API_URL}/api/registration`, {
+            const response = await fetch(`${API_URL}/registration`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),

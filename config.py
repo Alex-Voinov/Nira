@@ -1,6 +1,8 @@
 from pydantic_settings import BaseSettings
 from typing import Optional
 from pathlib import Path
+from os import getenv
+
 
 BASE_DIR = Path(__file__).parent
 FRONTEND_DIR = BASE_DIR / "app"
@@ -16,9 +18,10 @@ class Settings(BaseSettings):
     port: int
     host: str
     build_frontend: bool = False
+    mode: str = getenv("ENV", "dev")
 
     class Config:
-        env_file = ".env"
+        env_file = f".env.{getenv('ENV', 'dev')}"
         env_file_encoding = "utf-8"
 
 
