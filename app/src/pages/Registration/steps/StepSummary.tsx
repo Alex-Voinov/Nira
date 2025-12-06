@@ -1,30 +1,33 @@
 import type { FormData } from "@/types/FormData";
+const API_URL = import.meta.env.VITE_API_URL;
 
 type Props = {
-  data: FormData;
+    data: FormData;
 };
 
 export default function StepSummary({ data }: Props) {
-  const saveData = async () => {
-    try {
-      const response = await fetch("https://your-server.com/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      if (!response.ok) throw new Error("Ошибка сохранения");
-      alert("Данные успешно сохранены!");
-    } catch (err) {
-      console.error(err);
-      alert("Не удалось сохранить данные. Попробуй еще раз.");
-    }
-  };
+    const saveData = async () => {
+        try {
+            const response = await fetch(`${API_URL}/api/registration`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+            });
+            if (!response.ok) throw new Error("Ошибка сохранения");
+            alert("Данные успешно сохранены!");
+        } catch (err) {
+            console.error(err);
+            alert("Не удалось сохранить данные. Попробуй еще раз.");
+        }
+    };
 
-  return (
-    <div className="step">
-      <h2>Проверь свои данные</h2>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
-      <button onClick={saveData} className="btn-save">Сохранить</button>
-    </div>
-  );
+    return (
+        <div className="step">
+            <h2>Проверь свои данные</h2>
+            <pre>{JSON.stringify(data, null, 2)}</pre>
+            <button onClick={saveData} className="btn-save">
+                Сохранить
+            </button>
+        </div>
+    );
 }

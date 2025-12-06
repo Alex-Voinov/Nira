@@ -9,25 +9,14 @@ import StepInterests from "./steps/StepInterests";
 import StepAbout from "./steps/StepAbout";
 import StepSummary from "./steps/StepSummary";
 import styles from "./RegistrationPage.module.css";
-import type { FormData } from "@/types/FormData";
+import { formInitialState, type FormData } from "@/types/FormData";
 
 
 export default function RegistrationPage() {
   const [step, setStep] = useState(0);
   const [tgId, setTgId] = useState<number | null>(null);
 
-  const [data, setData] = useState<FormData>({
-    name: "",
-    age: null,
-    gender: null,
-    showGender: true,
-    city: "",
-    height: null,
-    weight: null,
-    interests: [],
-    about: "",
-    tg_id: undefined,
-  });
+  const [data, setData] = useState<FormData>(formInitialState);
 
   // Получаем tg_id через Telegram Web App
   useEffect(() => {

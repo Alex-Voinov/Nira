@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, status
 from api.schemas.schemas_user import CreateUser
 from api.service.user import create_user
 
@@ -10,18 +10,17 @@ router = APIRouter()
 # из нее сюда буду передовать
 
 
-@router.post("/create/user")
+@router.post("/registration", status_code=status.HTTP_201_CREATED)
 async def post_create_user(user: CreateUser):
-    """
-    Создание нового пользователя.
-    Логика находится в service/user.py
-    """
+    """Создание нового пользователя"""
     if not user.name.strip():
         raise HTTPException(status_code=400, detail="Имя не может быть пустым")
     if user.age <= 0:
         raise HTTPException(
-            status_code=400, detail="Возраст должен быть положительным")
+            status_code=400, detail="Возраст должен быть положительным"
+        )
     try:
-        return await create_user(user)
+        user_id = await create_user(user)
+        return {"message": "Пользователь успешно создан", "user_id": user_id}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))

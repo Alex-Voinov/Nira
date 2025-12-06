@@ -5,7 +5,7 @@ const RegistrationPage = lazy(() => import("@/pages/Registration/RegistrationPag
 
 function AppRouter() {
   return (
-    <BrowserRouter basename="/Nira">
+    <BrowserRouter>
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route path="/" element={<Navigate to="/register" replace />} />

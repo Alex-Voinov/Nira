@@ -1,6 +1,10 @@
 from pydantic_settings import BaseSettings
 from typing import Optional
+from pathlib import Path
 
+BASE_DIR = Path(__file__).parent
+FRONTEND_DIR = BASE_DIR / "app"
+BUILD_DIR = FRONTEND_DIR / "dist"
 
 class Settings(BaseSettings):
     tg_token: str
@@ -11,6 +15,7 @@ class Settings(BaseSettings):
     web_app_url: str
     port: int
     host: str
+    build_frontend: bool = False
 
     class Config:
         env_file = ".env"

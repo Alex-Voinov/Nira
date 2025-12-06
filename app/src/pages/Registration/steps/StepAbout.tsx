@@ -10,8 +10,8 @@ export default function StepAbout({ data, setData }: Props) {
     <div className="step">
       <h2>О себе</h2>
       <textarea
-        value={data.about}
-        onChange={(e) => setData({ ...data, about: e.target.value })}
+        value={data.description || ''}
+        onChange={(e) => setData({ ...data, description: e.target.value })}
         placeholder="Расскажи немного о себе"
         className="textarea"
         rows={4}

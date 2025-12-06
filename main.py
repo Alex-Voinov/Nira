@@ -1,22 +1,22 @@
 # 1. Стандартная библиотека
-from asyncio import gather, run
-from logging import DEBUG, INFO, basicConfig, getLogger
+from asyncio import gather, run, create_task
+from subprocess import run as process_run, CalledProcessError
+from shutil import which
 
 # 2. Сторонние библиотеки
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.client.bot import DefaultBotProperties
 
-from fastapi import FastAPI
 from uvicorn import Config, Server
 
 # 3. Локальные модули
-from config import settings
+from config import settings, FRONTEND_DIR
 from bot.middlewares.ratelimit import SimpleRateLimitMiddleware
 from bot.handlers import router as bot_router
 from database import engine, Base
-from api.router.router import router as api_router
-
+from api import app
+from logger import logger
 
 try:
     from aiogram.fsm.storage.redis import RedisStorage
@@ -24,20 +24,39 @@ except Exception:
     RedisStorage = None
 
 # =========================
-# Logging
+# Функция сборки фронтенда
 # =========================
-log_level = DEBUG if settings.debug else INFO
-basicConfig(
-    level=log_level,
-    format="%(asctime)s %(levelname)s %(name)s: %(message)s"
-)
-logger = getLogger(__name__)
+def build_frontend():
+    if not settings.build_frontend:
+        logger.info("Frontend build skipped (build_frontend=False)")
+        return
 
-# =========================
-# FastAPI app
-# =========================
-app = FastAPI()
-app.include_router(api_router, prefix="/api")
+    logger.info("🔨 Starting frontend build...")
+
+    # ищем git bash
+    git_bash_path = which("bash")
+    use_git_bash = git_bash_path is not None
+
+    commands = [
+        "npm install",
+        "npm run build"
+    ]
+
+    for cmd in commands:
+        try:
+            if use_git_bash:
+                logger.info(f"Executing with Git Bash: {cmd}")
+                process_run([git_bash_path, "-c", cmd], cwd=FRONTEND_DIR, check=True)
+            else:
+                logger.info(f"Executing with shell fallback: {cmd}")
+                process_run(cmd, cwd=FRONTEND_DIR, check=True, shell=True)
+        except CalledProcessError as e:
+            logger.warning(f"Frontend build command failed: {cmd}\n{e}")
+        except FileNotFoundError as e:
+            logger.warning(f"Command not found: {cmd}\n{e}")
+
+    logger.info("✅ Frontend build finished (check logs for errors)")
+
 
 # =========================
 # FSM Storage
@@ -95,10 +114,10 @@ async def start_api():
 # Главная функция
 # =========================
 async def main():
-    await gather(
-        start_bot(),
-        start_api()
-    )
+    api_task = create_task(start_api())
+    bot_task = create_task(start_bot())
+    await gather(api_task, bot_task)
 
 if __name__ == "__main__":
+    build_frontend()
     run(main())

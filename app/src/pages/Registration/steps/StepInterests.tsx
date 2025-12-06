@@ -9,10 +9,10 @@ type Props = {
 
 export default function StepInterests({ data, setData }: Props) {
   const toggleInterest = (interest: string) => {
-    if (data.interests.includes(interest)) {
-      setData({ ...data, interests: data.interests.filter(i => i !== interest) });
+    if (data.goal.includes(interest)) {
+      setData({ ...data, goal: data.goal.filter(i => i !== interest) });
     } else {
-      setData({ ...data, interests: [...data.interests, interest] });
+      setData({ ...data, goal: [...data.goal, interest] });
     }
   };
 
@@ -23,7 +23,7 @@ export default function StepInterests({ data, setData }: Props) {
         {INTERESTS.map(i => (
           <button
             key={i}
-            className={data.interests.includes(i) ? "interest selected" : "interest"}
+            className={data.goal.includes(i) ? "interest selected" : "interest"}
             onClick={() => toggleInterest(i)}
           >
             {i}
