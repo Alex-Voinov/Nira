@@ -10,6 +10,7 @@ function AppRouter() {
         <Routes>
           <Route path="/" element={<Navigate to="/register" replace />} />
           <Route path="/register/*" element={<RegistrationPage />} />
+          <Route path="*" element={<Navigate to="/register" replace />} />
         </Routes>
       </Suspense>
     </BrowserRouter>
