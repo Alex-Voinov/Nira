@@ -1,13 +1,17 @@
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-from sqlalchemy import Integer, String, BigInteger, Text
+# database/models/Message.py
+from sqlalchemy import Column, BigInteger, DateTime, Text, ForeignKey, PrimaryKeyConstraint
+from sqlalchemy.sql import func
 from ..base import Base
 
 
 class Message(Base):
     __tablename__ = "messages"
 
-    sender_id: Mapped[int] = mapped_column(BigInteger)
-    text: Mapped[str] = mapped_column(Text)
-    attachments: Mapped[str] = mapped_column(Text, nullable=True)
-    created_at: Mapped[DateTime] = mapped_column(DateTime(timezone=True), server_default=func.now())
-    edited_at: Mapped[DateTime] = mapped_column(DateTime(timezone=True), nullable=True)
+    chat_id = Column(BigInteger, ForeignKey("chats.id"), nullable=False)        # ← теперь ссылаемся на id!
+    sender_id = Column(BigInteger, ForeignKey("users.tg_id"), nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    text = Column(Text, nullable=False)
+
+    __table_args__ = (
+        PrimaryKeyConstraint('chat_id', 'sender_id', 'created_at'),
+    )

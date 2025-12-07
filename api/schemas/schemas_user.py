@@ -1,10 +1,10 @@
 from pydantic import BaseModel
 from typing import Optional
 
-class CreateUser(BaseModel):
+class UserBase(BaseModel):
     tg_id: int
-    name: str
-    age: int
+    name: Optional[str] = None
+    age: Optional[int] = None
     gender: Optional[str] = None
     show_gender: Optional[str] = None
     city: Optional[str] = None
@@ -13,3 +13,6 @@ class CreateUser(BaseModel):
     weight: Optional[int] = None
     goal: Optional[str] = None
     description: Optional[str] = None
+
+    class Config:
+        from_attributes = True  # ← это важно для FastAPI + SQLAlchemy

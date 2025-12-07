@@ -1,11 +1,20 @@
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-from sqlalchemy import Integer, String, BigInteger, Text
+# database/models/Chat.py
+from sqlalchemy import Column, BigInteger, DateTime, ForeignKey, UniqueConstraint
+from sqlalchemy.orm import relationship
+from sqlalchemy.sql import func
 from ..base import Base
 
 
 class Chat(Base):
-    __tablename__ = "chat"
+    __tablename__ = "chats"
 
-    user_id: Mapped[int] = mapped_column(BigInteger)
-    target_id: Mapped[int] = mapped_column(BigInteger)
-    message_id: Mapped[int] = mapped_column(Integer)
+    id = Column(BigInteger, primary_key=True, autoincrement=True)  # ← ЭТО ОБЯЗАТЕЛЬНО!
+
+    user1_id = Column(BigInteger, ForeignKey("users.tg_id"), nullable=False, index=True)
+    user2_id = Column(BigInteger, ForeignKey("users.tg_id"), nullable=False, index=True)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+    # Чтобы не было дублей чатов (опционально, но очень желательно)
+    __table_args__ = (
+        UniqueConstraint('user1_id', 'user2_id', name='unique_chat_pair'),
+    )
