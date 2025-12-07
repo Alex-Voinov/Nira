@@ -42,7 +42,8 @@ async def start_bot():
 
     dp.message.middleware(SimpleRateLimitMiddleware(limit_seconds=1))
 
-    async def handle_errors(update, exception):
+    async def handle_errors(*args, **kwargs):
+        exception = kwargs.get("exception") or (args[1] if len(args) > 1 else None)
         logger.exception("Unhandled exception: %s", exception)
 
     dp.errors.register(handle_errors)
