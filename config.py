@@ -1,12 +1,7 @@
 from pydantic_settings import BaseSettings
 from typing import Optional
-from pathlib import Path
 from os import getenv
 
-
-BASE_DIR = Path(__file__).parent
-FRONTEND_DIR = BASE_DIR / "app"
-BUILD_DIR = FRONTEND_DIR / "dist"
 
 class Settings(BaseSettings):
     tg_token: str
