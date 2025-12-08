@@ -3,11 +3,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from database.db import get_session
 
 from api.schemas.schemas_like import LikeBase
+from api.schemas.schemas_dislike import DislikeBase
 from api.schemas.schemas_user import UserBase
 from api.service.service_like import service_add_like
 from api.service.service_dislike import service_add_dislike
 
-router = APIRouter(prefix="/api", tags=["likes"])
+router = APIRouter()
 
 # тут прописана логика кода сделана Доценко Егором Дмитриевичем
 
@@ -30,9 +31,7 @@ async def create_user_endpoint(user: UserBase):
 
 
 @router.post("/like")
-async def add_like_endpoint(
-    data: LikeBase,
-):
+async def add_like_endpoint(data: LikeBase):
     try:
         return await service_add_like(data.user_id, data.target_id)
     except ValueError as e:
@@ -43,10 +42,11 @@ async def add_like_endpoint(
 
 
 @router.post("/dislike")
-async def add_dislike_endpoint(
-    data: LikeBase,
-):
+async def add_dislike_endpoint(data: DislikeBase):
     try:
         return await service_add_dislike(data.user_id, data.target_id)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail="Внутренняя ошибка сервера")
