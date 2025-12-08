@@ -7,6 +7,7 @@ from api.schemas.schemas_dislike import DislikeBase
 from api.schemas.schemas_user import UserBase
 from api.service.service_like import service_add_like
 from api.service.service_dislike import service_add_dislike
+from api.service.service_user import service_create_user
 
 router = APIRouter()
 

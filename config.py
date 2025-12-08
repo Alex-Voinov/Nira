@@ -12,7 +12,6 @@ class Settings(BaseSettings):
     web_app_url: str
     port: int
     host: str
-    build_frontend: bool = False
     mode: str = getenv("ENV", "dev")
 
     class Config:

@@ -65,7 +65,7 @@ EOF
 }
 
 # ----------------------------
-# Функция прогресс-бара для папок
+# Функция прогресс-бара для папок (scp)
 # ----------------------------
 progress_bar() {
     local src=$1
@@ -87,7 +87,6 @@ chmod 600 $REMOTE_PROJECT_DIR/.env.prod
 chmod 600 $REMOTE_PROJECT_DIR/app/.env.production
 EOF
 
-        # Перезапуск служб
         restart_services
         ;;
     "dist")
@@ -95,15 +94,24 @@ EOF
         progress_bar "$LOCAL_PROJECT_DIR/app/dist" "$REMOTE_USER@$REMOTE_HOST:$REMOTE_PROJECT_DIR/app/"
         ;;
     "весь проект")
-        echo "🚀 Копируем весь проект..."
-        progress_bar "$LOCAL_PROJECT_DIR/" "$REMOTE_USER@$REMOTE_HOST:$REMOTE_PROJECT_DIR/"
+        echo "🚀 Копируем весь проект (исключая node_modules, .venv, .vscode)..."
+
+        TMP_ARCHIVE="/tmp/project.tar.gz"
+        tar --exclude='node_modules' --exclude='.venv' --exclude='.vscode' -czf "$TMP_ARCHIVE" -C "$LOCAL_PROJECT_DIR" .
+
+        scp "$TMP_ARCHIVE" "$REMOTE_USER@$REMOTE_HOST:$REMOTE_PROJECT_DIR/project.tar.gz"
 
         ssh "$REMOTE_USER@$REMOTE_HOST" << EOF
+cd $REMOTE_PROJECT_DIR
+tar -xzf project.tar.gz
+rm project.tar.gz
+
 chmod 600 $REMOTE_PROJECT_DIR/.env*
 chmod 600 $REMOTE_PROJECT_DIR/app/.env*
 EOF
 
-        # Перезапуск служб
+        rm "$TMP_ARCHIVE"
+
         restart_services
         ;;
     "выход")
