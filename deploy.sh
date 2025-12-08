@@ -70,7 +70,7 @@ EOF
 progress_bar() {
     local src=$1
     local dest=$2
-    rsync -ah --progress "$src" "$dest"
+    scp -r "$src" "$dest"
 }
 
 # ----------------------------
