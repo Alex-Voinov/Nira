@@ -11,7 +11,6 @@ class UserBase(BaseModel):
     current_country: Optional[str] = None
     height: Optional[int] = None
     weight: Optional[int] = None
-    goal: Optional[str] = None
     description: Optional[str] = None
 
     class Config:

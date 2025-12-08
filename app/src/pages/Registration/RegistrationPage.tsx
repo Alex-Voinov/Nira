@@ -9,7 +9,7 @@ import StepInterests from "./steps/StepInterests";
 import StepAbout from "./steps/StepAbout";
 import StepSummary from "./steps/StepSummary";
 import styles from "./RegistrationPage.module.css";
-import { formInitialState, type FormData } from "@/types/FormData";
+import { formInitialState, type FormData } from "@/types/user";
 
 
 export default function RegistrationPage() {

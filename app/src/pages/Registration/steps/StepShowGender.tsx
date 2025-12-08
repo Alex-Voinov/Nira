@@ -1,9 +1,9 @@
-import type { FormData } from "@/types/FormData";
+import type { IUser } from "@/types/user";
 import type { FC } from "react";
 
 type Props = {
-  data: FormData;
-  setData: (data: FormData) => void;
+  data: IUser;
+  setData: (data: IUser) => void;
 };
 
 const StepShowGender: FC<Props> = ({ data, setData }) => {
@@ -24,8 +24,8 @@ const StepShowGender: FC<Props> = ({ data, setData }) => {
               type="radio"
               name="showGender"
               value={opt.value}
-              checked={data.showGender === opt.value}
-              onChange={() => setData({ ...data, showGender: opt.value })}
+              checked={data.show_gender === opt.value}
+              onChange={() => setData({ ...data, show_gender: opt.value })}
             />
             {opt.label}
           </label>

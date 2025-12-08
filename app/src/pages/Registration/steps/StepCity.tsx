@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import type { FormData } from "@/types/FormData";
+import type { IUser } from "@/types/user";
 
 type Props = {
-  data: FormData;
-  setData: (data: FormData) => void;
+  data: IUser;
+  setData: (data: IUser) => void;
 };
 
 type NominatimItem = {

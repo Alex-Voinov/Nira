@@ -6,8 +6,6 @@ from api.schemas.schemas_user import UserBase
 async def service_create_user(data: UserBase):
 
     # Создаем нового пользователя через Base.create
-    user = await User.create(
-        **data
-    )
+    user = await User.create(**data.__dict__)
     print(user)
     return {"status": 200, "message": "пользователь успешно создан"}

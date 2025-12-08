@@ -14,5 +14,4 @@ class User(Base):
     current_country: Mapped[str] = mapped_column(Text)
     height: Mapped[int] = mapped_column(Integer)
     weight: Mapped[int] = mapped_column(Integer)
-    goal: Mapped[str] = mapped_column(Text)
     description: Mapped[str] = mapped_column(String(256))

@@ -1,10 +1,10 @@
-import type { FormData } from "@/types/FormData";
+import type { IUser } from "@/types/user";
 
 const INTERESTS = ["Спорт", "Музыка", "Книги", "Путешествия", "Игры", "Кино"];
 
 type Props = {
-  data: FormData;
-  setData: (data: FormData) => void;
+  data: IUser;
+  setData: (data: IUser) => void;
 };
 
 export default function StepInterests({ data, setData }: Props) {

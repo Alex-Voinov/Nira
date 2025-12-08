@@ -1,9 +1,9 @@
-import type { FormData } from "@/types/FormData";
+import type { IUser } from "@/types/user";
 import type { FC } from "react";
 
 type Props = {
-  data: FormData;
-  setData: (data: FormData) => void;
+  data: IUser;
+  setData: (data: IUser) => void;
 };
 
 const StepGender: FC<Props> = ({ data, setData }) => {

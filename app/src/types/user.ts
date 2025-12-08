@@ -1,24 +1,24 @@
-export type FormData = {
+export type IUser = {
   tg_id: number;
   name: string;
   age: number;
   gender: "male" | "female" | "other" | null;
-  showGender: "male" | "female" | "mix" | null;
+  show_gender: "male" | "female" | "mix" | null;
   city: string;
-  current_country: string | null;
+  current_country: string;
   height: number | null;
   weight: number | null;
   goal: string[];
   description: string | null;
 };
 
-export const formInitialState: FormData = {
+export const formInitialState: IUser = {
   name: "",
   age: -1,
   gender: null,
-  showGender: null,
+  show_gender: null,
   city: "",
-  current_country: null,
+  current_country: 'UK',
   height: null,
   weight: null,
   goal: [],

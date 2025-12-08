@@ -1,24 +1,21 @@
-import type { FormData } from "@/types/FormData";
-const API_URL = import.meta.env.VITE_API_URL;
+import userService from "@/services/userService";
+import type { IUser } from "@/types/user";
+
 
 type Props = {
-    data: FormData;
+    data: IUser;
 };
 
 export default function StepSummary({ data }: Props) {
-    const saveData = async () => {
-        try {
-            const response = await fetch(`${API_URL}/registration`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data),
-            });
+    const saveData = () => {
+        userService.register(data).then(response => {
             if (!response.ok) throw new Error("Ошибка сохранения");
             alert("Данные успешно сохранены!");
-        } catch (err) {
+        }).catch(err => {
             console.error(err);
             alert("Не удалось сохранить данные. Попробуй еще раз.");
         }
+        )
     };
 
     return (
