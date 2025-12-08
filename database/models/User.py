@@ -1,13 +1,12 @@
 from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy import Integer, String, BigInteger, Text
-from ..base import Base
-
+from sqlalchemy import BigInteger, String, Integer, Text
+from database.base import Base
 
 class User(Base):
     __tablename__ = "users"
 
     tg_id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
-    name: Mapped[str] = mapped_column(String(20))
+    name: Mapped[str] = mapped_column(String(20), nullable=False)
     age: Mapped[int] = mapped_column(Integer)
     gender: Mapped[str] = mapped_column(Text)
     show_gender: Mapped[str] = mapped_column(Text)
