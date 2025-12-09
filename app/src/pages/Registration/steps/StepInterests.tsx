@@ -1,10 +1,12 @@
 import type { IUser } from "@/types/user";
+import type { Dispatch, SetStateAction } from "react";
 
 const INTERESTS = ["Спорт", "Музыка", "Книги", "Путешествия", "Игры", "Кино"];
 
 type Props = {
   data: IUser;
   setData: (data: IUser) => void;
+  setActiveNextStep: Dispatch<SetStateAction<boolean>>;
 };
 
 export default function StepInterests({ data, setData }: Props) {

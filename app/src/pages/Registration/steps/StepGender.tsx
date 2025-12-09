@@ -1,9 +1,10 @@
 import type { IUser } from "@/types/user";
-import type { FC } from "react";
+import type { Dispatch, FC, SetStateAction } from "react";
 
 type Props = {
   data: IUser;
   setData: (data: IUser) => void;
+  setActiveNextStep: Dispatch<SetStateAction<boolean>>;
 };
 
 const StepGender: FC<Props> = ({ data, setData }) => {

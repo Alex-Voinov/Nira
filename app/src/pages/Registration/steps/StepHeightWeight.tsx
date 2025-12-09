@@ -1,8 +1,10 @@
 import type { IUser } from "@/types/user";
+import type { Dispatch, SetStateAction } from "react";
 
 type Props = {
   data: IUser;
   setData: (data: IUser) => void;
+  setActiveNextStep: Dispatch<SetStateAction<boolean>>;
 };
 
 export default function StepHeightWeight({ data, setData }: Props) {

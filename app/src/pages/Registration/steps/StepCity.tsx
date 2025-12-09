@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, type Dispatch, type SetStateAction } from "react";
 import type { IUser } from "@/types/user";
 
 type Props = {
   data: IUser;
   setData: (data: IUser) => void;
+  setActiveNextStep: Dispatch<SetStateAction<boolean>>;
 };
 
 type NominatimItem = {

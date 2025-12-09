@@ -22,7 +22,7 @@ export default function StepSummary({ data }: Props) {
         <div className="step">
             <h2>Проверь свои данные</h2>
             <pre>{JSON.stringify(data, null, 2)}</pre>
-            <button onClick={saveData} className="btn-save">
+            <button onClick={saveData}>
                 Сохранить
             </button>
         </div>
