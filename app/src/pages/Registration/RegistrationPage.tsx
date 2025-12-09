@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import StepName from "./steps/StepName";
 import StepAge from "./steps/StepAge";
 import StepGender from "./steps/StepGender";
@@ -9,27 +9,14 @@ import StepInterests from "./steps/StepInterests";
 import StepAbout from "./steps/StepAbout";
 import StepSummary from "./steps/StepSummary";
 import styles from "./RegistrationPage.module.css";
-import { formInitialState, type FormData } from "@/types/user";
+import { formInitialState, type IUser } from "@/types/user";
 
 
 export default function RegistrationPage() {
   const [step, setStep] = useState(0);
-  const [tgId, setTgId] = useState<number | null>(null);
 
-  const [data, setData] = useState<FormData>(formInitialState);
+  const [data, setData] = useState<IUser>(formInitialState);
 
-  // Получаем tg_id через Telegram Web App
-  useEffect(() => {
-    // @ts-ignore
-    if (window.Telegram?.WebApp?.initDataUnsafe) {
-      // @ts-ignore
-      setTgId(Number(window.Telegram.WebApp.initDataUnsafe.user?.id));
-    }
-  }, []);
-
-  useEffect(() => {
-    if (tgId) setData((prev) => ({ ...prev, tg_id: tgId }));
-  }, [tgId]);
 
   const steps = [
     <StepName data={data} setData={setData} />,
