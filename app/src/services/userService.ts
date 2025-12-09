@@ -1,39 +1,24 @@
 import api from "@/api/api";
-import { type IUser } from "@/types/user";
+import userStore from "@/stores/userStore";
+import type { IUser } from "@/types/user";
 
 class UserService {
-
-    private telegramInitData: string | null = null;
-    private telegramUser: TelegramWebApp.User | null = null;
 
     initFromTelegram() {
         if (!window.Telegram?.WebApp) return;
 
         const tg = window.Telegram.WebApp;
-
         tg.ready();
 
-        this.telegramInitData = tg.initData;
-        this.telegramUser = tg.initDataUnsafe?.user || null;
-    }
-
-    getInitData() {
-        return this.telegramInitData;
-    }
-
-    getTelegramUser() {
-        return this.telegramUser;
+        userStore.setInitData(tg.initData);
+        userStore.setTelegramUser(tg.initDataUnsafe?.user || null);
     }
 
     async register(userData: IUser) {
-        try {
-            const response = await api.post("/registration", userData);
-            return response.data;
-        } catch (error) {
-            throw error;
-        }
+        const response = await api.post("/registration", userData);
+        userStore.setBackendUser(response.data);
+        return response.data;
     }
+}
 
-};
-
-export default new UserService()
+export default new UserService();

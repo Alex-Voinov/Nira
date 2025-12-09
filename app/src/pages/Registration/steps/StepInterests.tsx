@@ -1,15 +1,15 @@
 import type { IUser } from "@/types/user";
-import type { Dispatch, SetStateAction } from "react";
+import type { Dispatch, FC, SetStateAction } from "react";
 
 const INTERESTS = ["Спорт", "Музыка", "Книги", "Путешествия", "Игры", "Кино"];
 
-type Props = {
+interface IStepInterests {
   data: IUser;
   setData: (data: IUser) => void;
   setActiveNextStep: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function StepInterests({ data, setData }: Props) {
+const StepInterests: FC<IStepInterests> = ({ data, setData }) => {
   const toggleInterest = (interest: string) => {
     if (data.goal.includes(interest)) {
       setData({ ...data, goal: data.goal.filter(i => i !== interest) });
@@ -25,6 +25,7 @@ export default function StepInterests({ data, setData }: Props) {
         {INTERESTS.map(i => (
           <button
             key={i}
+            type="button"
             className={data.goal.includes(i) ? "interest selected" : "interest"}
             onClick={() => toggleInterest(i)}
           >
@@ -35,3 +36,5 @@ export default function StepInterests({ data, setData }: Props) {
     </div>
   );
 }
+
+export default StepInterests

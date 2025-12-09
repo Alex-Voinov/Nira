@@ -17,7 +17,7 @@ export default function StepName({ data, setData, setActiveNextStep }: Props) {
         value={data.name}
         onChange={(e) => setData({ ...data, name: e.target.value })}
         placeholder="Имя"
-        className="input"
+        
       />
     </div>
   );

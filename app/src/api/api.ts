@@ -1,5 +1,5 @@
 import axios, { type AxiosInstance } from "axios";
-import userService from "@/services/userService";
+import userStore from "@/stores/userStore";
 
 const api: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -7,7 +7,7 @@ const api: AxiosInstance = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  const initData = userService.getInitData();
+  const initData = userStore.telegramInitData;
 
   if (initData) {
     config.headers["x-telegram-init-data"] = initData;
@@ -16,4 +16,4 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-export default api
+export default api;

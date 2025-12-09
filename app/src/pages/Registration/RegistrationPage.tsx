@@ -10,6 +10,7 @@ import StepAbout from "./steps/StepAbout";
 import StepSummary from "./steps/StepSummary";
 import styles from "./RegistrationPage.module.css";
 import { formInitialState, type IUser } from "@/types/user";
+import userService from "@/services/userService";
 
 
 export default function RegistrationPage() {
@@ -72,6 +73,10 @@ export default function RegistrationPage() {
           : <button
             className={styles.formButton}
             type="submit"
+            onClick={e => {
+              e.preventDefault();
+              userService.register(data).then(_ => alert('ok')).catch(_ => alert('не ок'))
+            }}
           >
             Сохранить
           </button>}
