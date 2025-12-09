@@ -1,15 +1,6 @@
-from sqlalchemy import select, update, delete, func
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select, update
 from ..db import async_session
-from ..models.User import User
 from ..models.Photo import Photo
-from ..models.Message import Message
-from ..models.Chat import Chat
-from ..models.Group import Group
-from ..models.Likes import Likes
-from ..models.Disliked import Disliked
-from ..models.Views import Views
-from ..models.Matchers import Matchers
 
 
 async def add_photo(user_tg_id: int, url: str, is_profile=False):

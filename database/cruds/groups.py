@@ -1,16 +1,9 @@
 import json
 from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
 from ..db import async_session
-from ..models.User import User
-from ..models.Photo import Photo
 from ..models.Message import Message
 from ..models.Chat import Chat
 from ..models.Group import Group
-from ..models.Likes import Likes
-from ..models.Disliked import Disliked
-from ..models.Views import Views
-from ..models.Matchers import Matchers
 
 async def create_group(name: str, tg_ids: list[int]):
     """Создать группу"""

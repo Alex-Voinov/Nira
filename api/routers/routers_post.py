@@ -1,6 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.ext.asyncio import AsyncSession
-from database.db import get_session
+from fastapi import APIRouter, HTTPException
 
 from api.schemas.schemas_like import LikeBase
 from api.schemas.schemas_dislike import DislikeBase
