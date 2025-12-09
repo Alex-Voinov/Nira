@@ -1,6 +1,5 @@
 # database/models/Chat.py
 from sqlalchemy import Column, BigInteger, DateTime, ForeignKey, UniqueConstraint
-from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from ..base import Base
 

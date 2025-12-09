@@ -15,4 +15,6 @@ class User(Base):
     height: Mapped[int] = mapped_column(Integer)
     weight: Mapped[int] = mapped_column(Integer)
     goal: Mapped[str] = mapped_column(Text)
+    photo_url: Mapped[str] = mapped_column(Text)
+    count_photo[int] = mapped_column(Integer)
     description: Mapped[str] = mapped_column(String(256))

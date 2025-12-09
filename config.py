@@ -2,7 +2,6 @@ from pydantic_settings import BaseSettings
 from typing import Optional
 from os import getenv
 
-
 class Settings(BaseSettings):
     tg_token: str
     use_redis: bool = False
@@ -14,10 +13,10 @@ class Settings(BaseSettings):
     host: str
     build_frontend: bool = False
     mode: str = getenv("ENV", "dev")
+    build_frontend: bool = False
 
     class Config:
         env_file = f".env.{getenv('ENV', 'dev')}"
         env_file_encoding = "utf-8"
-
 
 settings = Settings()

@@ -1,6 +1,5 @@
 # database/cruds/likes.py
-from sqlalchemy import select, delete
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy import select
 from ..db import async_session
 from ..models.Likes import Likes
 from ..models.Matchers import Matchers
