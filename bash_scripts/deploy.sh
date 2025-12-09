@@ -90,6 +90,11 @@ EOF
         restart_services
         ;;
     "dist")
+        echo "🚀 Строим проект перед деплоем dist..."
+        cd "$LOCAL_PROJECT_DIR/app" || { echo "Не удалось перейти в app"; exit 1; }
+
+        npm run build || { echo "Ошибка сборки!"; exit 1; }
+
         echo "🚀 Копируем папку app/dist..."
         progress_bar "$LOCAL_PROJECT_DIR/app/dist" "$REMOTE_USER@$REMOTE_HOST:$REMOTE_PROJECT_DIR/app/"
         ;;

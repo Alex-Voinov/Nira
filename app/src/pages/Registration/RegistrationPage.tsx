@@ -33,17 +33,29 @@ export default function RegistrationPage() {
   const progress = Math.round(((step + 1) / steps.length) * 100);
 
   return (
-    <div className={styles.container}>
+    <form className={styles.wrapper}>
       <div className={styles.progressBar}>
         <div className={styles.progress} style={{ width: `${progress}%` }} />
       </div>
       {steps[step]}
-      <button onClick={() => setStep(step - 1)} style={{ marginTop: "16px" }}>
+      {step > 0 && <button onClick={() => setStep(step - 1)}>
         Назад
-      </button>
-      <button onClick={() => setStep(step + 1)} style={{ marginTop: "16px" }}>
-        Далее
-      </button>
-    </div>
+      </button>}
+      {step < steps.length - 1
+        ? <button
+          onClick={(e) => {
+            e.preventDefault()
+            setStep(step + 1)
+          }}
+          type="submit"
+        >
+          Далее
+        </button>
+        : <button
+          type="submit"
+        >
+          Сохранить
+        </button>}
+    </form>
   );
 }

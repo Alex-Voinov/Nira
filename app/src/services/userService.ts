@@ -12,7 +12,6 @@ class UserService {
         const tg = window.Telegram.WebApp;
 
         tg.ready();
-        tg.expand();
 
         this.telegramInitData = tg.initData;
         this.telegramUser = tg.initDataUnsafe?.user || null;
