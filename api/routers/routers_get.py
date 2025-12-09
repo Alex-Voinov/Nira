@@ -1,7 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from api.service.service_like import service_receive_likes
 from api.service.service_matchers import service_receive_matchers
-from api.schemas.schemas_like import LikeBase
 
 router = APIRouter()
 
