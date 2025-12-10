@@ -1,10 +1,8 @@
 from fastapi import APIRouter, HTTPException
 from api.service.service_like import service_receive_likes
 from api.service.service_matchers import service_receive_matchers
-<<<<<<< HEAD
-=======
+
 from api.service.service_user import service_receive_user
->>>>>>> 58c8d1a (добавил модель бд goal и связку с user.добавил get запрос на пользователя.поправил получения метчей и удалил импортирующиеся файл которые не сипользуются.)
 
 router = APIRouter()
 

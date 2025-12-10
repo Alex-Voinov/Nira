@@ -48,6 +48,6 @@ async def service_receive_user(user_id: int):
         "weight": user.weight,
         "goal": goals,
         "photo_url": user.photo_url,
-        "count_photo": user.count_photo
+        "count_photo": user.count_photo,
         "description": user.description
     }
