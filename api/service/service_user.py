@@ -5,12 +5,10 @@ from api.schemas.schemas_user import UserBase
 
 async def service_create_user(data: UserBase):
 
-<<<<<<< HEAD
     # Создаем нового пользователя через Base.create
     user = await User.create(
         **data
     )
-=======
     # Создаем цели
     for el in data.goal:
         await Goal.create(user_id=data.tg_id, goal=el)

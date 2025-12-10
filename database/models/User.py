@@ -16,5 +16,5 @@ class User(Base):
     weight: Mapped[int] = mapped_column(Integer)
     goal: Mapped[str] = mapped_column(Text)
     photo_url: Mapped[str] = mapped_column(Text)
-    count_photo[int] = mapped_column(Integer)
+    count_photo: Mapped[int] = mapped_column(Integer)
     description: Mapped[str] = mapped_column(String(256))
