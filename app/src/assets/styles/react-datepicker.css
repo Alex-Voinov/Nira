@@ -1,0 +1,65 @@
+/* Поппер и календарь */
+.react-datepicker {
+  background-color: var(--tg-theme-section-bg-color) !important;
+  border: 1px solid var(--tg-theme-section-separator-color) !important;
+  border-radius: 8px !important;
+  color: var(--tg-theme-text-color) !important;
+  font-family: inherit !important;
+}
+
+/* Поппер позиционирование */
+.react-datepicker-popper {
+  z-index: 9999 !important;
+}
+
+/* Шапка календаря */
+.react-datepicker__header {
+  background-color: var(--tg-theme-header-bg-color) !important;
+  border-bottom: 1px solid var(--tg-theme-section-separator-color) !important;
+}
+
+/* Месяц и дни недели */
+.react-datepicker__current-month,
+.react-datepicker__day-name {
+  color: var(--tg-theme-section-header-text-color) !important;
+}
+
+/* Дни */
+.react-datepicker__day {
+  color: var(--tg-theme-text-color) !important;
+}
+
+/* Сегодня */
+.react-datepicker__day--today {
+  border: 1px solid var(--tg-theme-link-color) !important;
+}
+
+/* Выбранная дата */
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+  background-color: var(--tg-theme-button-color) !important;
+  color: var(--tg-theme-button-text-color) !important;
+}
+
+/* Выключенные дни */
+.react-datepicker__day--disabled {
+  color: var(--tg-theme-hint-color) !important;
+}
+
+/* Дни выходных */
+.react-datepicker__day--weekend {
+  color: var(--tg-theme-accent-text-color) !important;
+}
+
+/* === Селекты месяца и года === */
+.react-datepicker__month-select,
+.react-datepicker__year-select {
+  background-color: var(--tg-theme-section-bg-color) !important;
+  color: var(--tg-theme-text-color) !important;
+  border: 1px solid var(--tg-theme-section-separator-color) !important;
+  border-radius: 4px !important;
+  padding: 0.25em 0.5em !important;
+  font-size: 14px !important;
+  margin: 0 4px !important;
+  outline: none !important;
+}

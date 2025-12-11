@@ -2,6 +2,7 @@ import type { FC } from "react";
 import type { IStep } from "../RegistrationPage";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
+import "@/assets/styles/react-datepicker.css";
 import "react-datepicker/dist/react-datepicker.css";
 
 const StepAge: FC<IStep> = ({ data, setData }) => {
