@@ -1,6 +1,6 @@
-import type {  FC } from "react";
+import type { FC } from "react";
 import type { IStep } from "../RegistrationPage";
-
+import styles from './gender.module.css'
 
 const StepGender: FC<IStep> = ({ data, setData }) => {
   const options = [
@@ -10,22 +10,19 @@ const StepGender: FC<IStep> = ({ data, setData }) => {
   ] as const;
 
   return (
-    <div className="step">
-      <h2>Твой гендер</h2>
-
-      <div className="radio-group">
-        {options.map((opt) => (
-          <label key={opt.value}>
+    <div>
+      <h2>Твой пол</h2>
+      <div className={styles.selectorsBlock}>
+        {options.map(opt => (
+          <label key={opt.value} className={styles.option}>
             <input
               type="radio"
               name="gender"
               value={opt.value}
               checked={data.gender === opt.value}
-              onChange={() =>
-                setData({ ...data, gender: opt.value })
-              }
+              onChange={() => setData({ ...data, gender: opt.value })}
             />
-            {opt.label}
+            <span className={styles.labelText}>{opt.label}</span>
           </label>
         ))}
       </div>

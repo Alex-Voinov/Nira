@@ -17,7 +17,7 @@ const StepAge: FC<IStep> = ({ data, setData }) => {
   };
 
   return (
-    <div className="step">
+    <div>
       <h2>Дата рождения</h2>
       <DatePicker
         selected={selectedDate}

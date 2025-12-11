@@ -123,7 +123,7 @@ export default function RegistrationPage() {
             type="submit"
             onClick={e => {
               e.preventDefault();
-              userService.register(data).then(_ => alert('ok')).catch(_ => alert('не ок'))
+              userService.register(data).then(_ => alert('На сервер добавляются обновления по внеделению API Chat GPT')).catch(_ => alert('На сервер добавляются обновления по внеделению API Chat GPT'))
             }}
           >
             Сохранить
