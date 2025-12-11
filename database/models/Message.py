@@ -1,4 +1,3 @@
-# database/models/Message.py
 from sqlalchemy import Column, BigInteger, DateTime, Text, ForeignKey, PrimaryKeyConstraint
 from sqlalchemy.sql import func
 from ..base import Base

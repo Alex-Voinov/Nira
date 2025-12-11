@@ -1,6 +1,4 @@
-from database.cruds.dislikes import add_dislike, delete_dislike
-from database.models.Disliked import Disliked
-from api.schemas.schemas_dislike import DislikeBase
+from database.cruds.dislikes import add_dislike
 
 
 async def service_add_dislike(user_id: int, target_id: int):

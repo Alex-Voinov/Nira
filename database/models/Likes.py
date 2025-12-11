@@ -1,5 +1,5 @@
 import time
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy import BigInteger, Integer
 from database.base import Base 
 class Likes(Base):

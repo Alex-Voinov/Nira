@@ -10,3 +10,4 @@ from .models.Matchers import Matchers
 from .models.Message import Message
 from .models.Chat import Chat
 from .models.Group import Group
+from .models.Goal import Goal
