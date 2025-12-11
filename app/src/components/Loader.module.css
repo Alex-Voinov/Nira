@@ -1,0 +1,33 @@
+.wrapper {
+    width: 200px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.indicator {
+    width: 30px;
+    height: 30px;
+}
+
+.title {
+    margin-top: 20px;
+}
+
+.ring {
+    width: 100%;
+    height: 100%;
+    border: solid var(--tg-theme-link-color);
+    border-top-width: 0;
+    border-right-width: 0px;
+    border-bottom-width: 1.5px;
+    border-left-width: 3px;
+    border-radius: 50%;
+    animation: spin 1.1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

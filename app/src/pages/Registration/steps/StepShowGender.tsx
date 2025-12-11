@@ -1,13 +1,8 @@
-import type { IUser } from "@/types/user";
-import type { Dispatch, FC, SetStateAction } from "react";
+import type { FC } from "react";
+import type { IStep } from "../RegistrationPage";
 
-type Props = {
-  data: IUser;
-  setData: (data: IUser) => void;
-  setActiveNextStep: Dispatch<SetStateAction<boolean>>;
-};
 
-const StepShowGender: FC<Props> = ({ data, setData }) => {
+const StepShowGender: FC<IStep> = ({ data, setData }) => {
   const options = [
     { value: "male", label: "Только мужчин" },
     { value: "female", label: "Только женщин" },

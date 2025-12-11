@@ -1,15 +1,9 @@
-import type { IUser } from "@/types/user";
-import type { Dispatch, FC, SetStateAction } from "react";
+import type { FC } from "react";
+import type { IStep } from "../RegistrationPage";
 
 const INTERESTS = ["Спорт", "Музыка", "Книги", "Путешествия", "Игры", "Кино"];
 
-interface IStepInterests {
-  data: IUser;
-  setData: (data: IUser) => void;
-  setActiveNextStep: Dispatch<SetStateAction<boolean>>;
-};
-
-const StepInterests: FC<IStepInterests> = ({ data, setData }) => {
+const StepInterests: FC<IStep> = ({ data, setData }) => {
   const toggleInterest = (interest: string) => {
     if (data.goal.includes(interest)) {
       setData({ ...data, goal: data.goal.filter(i => i !== interest) });

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ComponentType } from "react";
 import StepName from "./steps/StepName";
 import StepAge from "./steps/StepAge";
 import StepGender from "./steps/StepGender";
@@ -11,31 +11,73 @@ import StepSummary from "./steps/StepSummary";
 import styles from "./RegistrationPage.module.css";
 import { formInitialState, type IUser } from "@/types/user";
 import userService from "@/services/userService";
+import clsx from 'clsx';
 
+
+const USERNAME_MIN_LENGTH = 2;
+
+export interface IStep {
+  data: IUser;
+  setData: (data: IUser) => void;
+}
+
+type StepTuple = [ComponentType<IStep>, () => boolean];
 
 export default function RegistrationPage() {
   const [step, setStep] = useState(0);
 
   const [data, setData] = useState<IUser>(formInitialState);
-  const [activeNextStep, setActiveNextStep] = useState(false)
+  const [incorrectStatus, setIncorrectStatus] = useState('')
 
-  const stepComponents = [
-    StepName,
-    StepAge,
-    StepGender,
-    StepShowGender,
-    StepCity,
-    StepHeightWeight,
-    StepInterests,
-    StepAbout,
-    StepSummary,
+  const stepComponents: StepTuple[] = [
+    [
+      StepName,
+      () => {
+        if (data.name.length >= USERNAME_MIN_LENGTH) return true
+        setIncorrectStatus(`Слишком короткое имя`)
+        return false
+      }
+    ],
+    [
+      StepAge,
+      () => { return true }
+    ],
+    [
+      StepGender,
+      () => { return true }
+    ],
+    [
+      StepShowGender,
+      () => { return true }
+    ],
+    [
+      StepCity,
+      () => { return true }
+    ],
+    [
+      StepHeightWeight,
+      () => { return true }
+    ],
+    [
+      StepInterests,
+      () => { return true }
+    ],
+    [
+      StepAbout,
+      () => { return true }
+    ],
+    [
+      StepSummary,
+      () => { return true }
+    ],
   ];
 
-  const steps = stepComponents.map((Component) => (
+  const isCorrectInput = stepComponents[step][1]
+
+  const steps = stepComponents.map(([Component, _]) => (
     <Component
       data={data}
       setData={setData}
-      setActiveNextStep={setActiveNextStep}
     />
   ));
 
@@ -43,7 +85,7 @@ export default function RegistrationPage() {
 
   return (
     <div className={styles.wrapper}>
-      <form className={styles.innerWrapper}>
+      <form className={clsx(styles.innerWrapper, incorrectStatus && styles.error)}>
         <div className={styles.progressBar}>
           <div className={styles.progress}
             style={{ width: `${progress}%` }}
@@ -52,8 +94,13 @@ export default function RegistrationPage() {
         {steps[step]}
         {step > 0 && <button
           onClick={
-            () => setStep(step - 1)
+            (e) => {
+              e.preventDefault();
+              setIncorrectStatus('')
+              setStep(step - 1);
+            }
           }
+          type="button"
           className={styles.formButton}
         >
           Назад
@@ -62,11 +109,12 @@ export default function RegistrationPage() {
           ? <button
             onClick={(e) => {
               e.preventDefault()
+              if (!isCorrectInput()) return;
               setStep(step + 1)
+              setIncorrectStatus('')
             }}
             className={styles.formButton}
             type="submit"
-            disabled={!activeNextStep}
           >
             Далее
           </button>
@@ -80,6 +128,7 @@ export default function RegistrationPage() {
           >
             Сохранить
           </button>}
+        <p>{incorrectStatus}</p>
       </form>
     </div>
   );

@@ -1,13 +1,7 @@
-import type { IUser } from "@/types/user";
-import type { Dispatch, SetStateAction } from "react";
+import type { FC } from "react";
+import type { IStep } from "../RegistrationPage";
 
-type Props = {
-  data: IUser;
-  setData: (data: IUser) => void;
-  setActiveNextStep: Dispatch<SetStateAction<boolean>>;
-};
-
-export default function StepHeightWeight({ data, setData }: Props) {
+const StepHeightWeight: FC<IStep> = ({ data, setData }) => {
   return (
     <div className="step">
       <h2>Рост и вес</h2>
@@ -28,3 +22,5 @@ export default function StepHeightWeight({ data, setData }: Props) {
     </div>
   );
 }
+
+export default StepHeightWeight;
