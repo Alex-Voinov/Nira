@@ -5,7 +5,11 @@ from api.schemas.schemas_user import UserBase
 
 async def service_create_user(data: UserBase):
 
-    # Создаем цели
+    # Создаем нового пользователя через Base.create
+    # user = await User.create(
+    #     **data.__dict__
+    # )
+
     for el in data.goal:
         await Goal.create(user_id=data.tg_id, goal=el)
     
@@ -23,13 +27,16 @@ async def service_create_user(data: UserBase):
         description=data.description
     )
 
-    print(user)
+        photo_url=data.photo_url,
+        description=data.description
+    )
+
     return {"status": 200, "message": "пользователь успешно создан"}
 
 async def service_receive_user(user_id: int):
     user = await User.find_by("tg_id", user_id)
     goals_db = await Goal.find_by("user_id", user_id)
-    goals: List[str] = [el.goal for el in goals_db]
+    goals: list[str] = [el.goal for el in goals_db]
     
     return {
         "tg_id": user.tg_id,
@@ -42,5 +49,7 @@ async def service_receive_user(user_id: int):
         "height": user.height,
         "weight": user.weight,
         "goal": goals,
+        "photo_url": user.photo_url,
+        "count_photo": user.count_photo,
         "description": user.description
     }

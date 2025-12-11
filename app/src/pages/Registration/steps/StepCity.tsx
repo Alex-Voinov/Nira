@@ -1,11 +1,5 @@
-import { useState, useEffect, type Dispatch, type SetStateAction } from "react";
-import type { IUser } from "@/types/user";
-
-type Props = {
-  data: IUser;
-  setData: (data: IUser) => void;
-  setActiveNextStep: Dispatch<SetStateAction<boolean>>;
-};
+import { useState, useEffect, type FC } from "react";
+import type { IStep } from "../RegistrationPage";
 
 type NominatimItem = {
   address: {
@@ -28,7 +22,7 @@ const fallbackCities = [
   "Sheffield",
 ];
 
-export default function StepCity({ data, setData }: Props) {
+const StepCity: FC<IStep> = ({ data, setData }) => {
   const [query, setQuery] = useState("");
   const [cities, setCities] = useState<string[]>([]);
   const [notInUk, setNotInUk] = useState(false); // ← чекбокс
@@ -155,3 +149,6 @@ export default function StepCity({ data, setData }: Props) {
     </div>
   );
 }
+
+
+export default StepCity;

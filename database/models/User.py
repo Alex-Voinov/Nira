@@ -14,4 +14,6 @@ class User(Base):
     current_country: Mapped[str] = mapped_column(Text)
     height: Mapped[int] = mapped_column(Integer)
     weight: Mapped[int] = mapped_column(Integer)
+    photo_url: Mapped[str] = mapped_column(Text)
+    count_photo: Mapped[int] = mapped_column(Integer)
     description: Mapped[str] = mapped_column(String(256))

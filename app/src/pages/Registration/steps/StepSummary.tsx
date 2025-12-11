@@ -1,11 +1,7 @@
-import type { IUser } from "@/types/user";
+import type { FC } from "react";
+import type { IStep } from "../RegistrationPage";
 
-
-type Props = {
-    data: IUser;
-};
-
-export default function StepSummary({ data }: Props) {
+const StepSummary: FC<IStep> = ({ data }) => {
     return (
         <div className="step">
             <h2>Проверь свои данные</h2>
@@ -13,3 +9,5 @@ export default function StepSummary({ data }: Props) {
         </div>
     );
 }
+
+export default StepSummary

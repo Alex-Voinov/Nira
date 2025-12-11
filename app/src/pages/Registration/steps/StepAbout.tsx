@@ -1,13 +1,8 @@
-import type { IUser } from "@/types/user";
-import type { Dispatch, SetStateAction } from "react";
+import type { FC } from "react";
+import type { IStep } from "../RegistrationPage";
 
-type Props = {
-  data: IUser;
-  setData: (data: IUser) => void;
-  setActiveNextStep: Dispatch<SetStateAction<boolean>>;
-};
 
-export default function StepAbout({ data, setData }: Props) {
+const StepAbout: FC<IStep> = ({ data, setData }) => {
   return (
     <div className="step">
       <h2>О себе</h2>
@@ -15,9 +10,10 @@ export default function StepAbout({ data, setData }: Props) {
         value={data.description || ''}
         onChange={(e) => setData({ ...data, description: e.target.value })}
         placeholder="Расскажи немного о себе"
-        className="textarea"
         rows={4}
       />
     </div>
   );
 }
+
+export default StepAbout
