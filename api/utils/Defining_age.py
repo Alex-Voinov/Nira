@@ -1,9 +1,9 @@
 from datetime import datetime
 
 #вот
-def defining_age(Birthday: str)
+def defining_age(Birthday: str):
 
-    birth_date = datatime.today(Birthday, "%d.%m.%Y")
+    birth_date = datetime.today(Birthday, "%d.%m.%Y")
     
     today = datetime.today()
     

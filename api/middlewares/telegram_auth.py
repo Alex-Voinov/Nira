@@ -20,6 +20,25 @@ class TelegramAuthMiddleware(BaseHTTPMiddleware):
                 status_code=500,
             )
 
+        # В dev можно передавать данные альтернативным заголовком без шифрования
+        if settings.mode == "dev":
+            init_data_raw = request.headers.get("x-telegram-init-data") \
+                            or request.headers.get("x-telegram-dev-data")
+            if not init_data_raw:
+                # В dev можно даже пропускать данные
+                request.state.telegram_user = None
+                return await call_next(request)
+
+            # Если данные есть, пробуем парсить, но не валидируем подпись
+            try:
+                init_data_obj = InitData.parse(init_data_raw)
+                request.state.telegram_user = init_data_obj.user
+            except Exception:
+                # Если не удалось распарсить, просто игнорируем в dev
+                request.state.telegram_user = None
+
+            return await call_next(request)
+
         init_data_raw: str | None = request.headers.get("x-telegram-init-data")
         if not init_data_raw:
             return JSONResponse(

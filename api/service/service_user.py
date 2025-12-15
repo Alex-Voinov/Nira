@@ -24,9 +24,6 @@ async def service_create_user(data: UserBase):
         current_country=data.current_country,
         height=data.height,
         weight=data.weight,
-        description=data.description
-    )
-
         photo_url=data.photo_url,
         description=data.description
     )

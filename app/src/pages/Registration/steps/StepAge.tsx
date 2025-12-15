@@ -12,7 +12,7 @@ const StepAge: FC<IStep> = ({ data, setData }) => {
     setSelectedDate(date);
     setData({
       ...data,
-      birthDate: date ? date.toISOString().split("T")[0] : "",
+      birth_date: date ? date.toISOString().split("T")[0] : "",
     });
   };
 

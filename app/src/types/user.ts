@@ -1,7 +1,7 @@
 export type IUser = {
   tg_id: number;
   name: string;
-  birthDate: string;
+  birth_date: string;
   gender: "male" | "female" | "other" | null;
   show_gender: "male" | "female" | "mix" | null;
   city: string;
@@ -14,7 +14,7 @@ export type IUser = {
 
 export const formInitialState: IUser = {
   name: "",
-  birthDate: '',
+  birth_date: '',
   gender: null,
   show_gender: null,
   city: "",
